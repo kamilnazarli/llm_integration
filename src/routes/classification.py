@@ -4,13 +4,17 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from openai import OpenAI
+from src.llm import *
 
 load_dotenv()
 
-# from src.llm.schema import MessageInput, MessageOutput
-from src.llm import *
-
 app = FastAPI()
+
+def get_prompt():
+    with open(r"C:\Users\User\OneDrive\Desktop\llm_integration\prompts\classification-v1.md",
+              "r",
+              encoding="utf-8") as file:
+        return file.read()
 
 @app.exception_handler(RequestValidationError)
 async def validation_handler(request: Request, exc: RequestValidationError):
@@ -37,7 +41,8 @@ async def root():
 
 @app.post("/classification")
 async def classify(message: MessageInput):
-    if int(os.getenv("LLM_STUB", 0)) == 1:
+    if os.getenv("LLM_STUB", "0") == "1":
+        print(message.model_dump_json())
         return {
             "category": "billing",
             "urgency": "low",
@@ -45,9 +50,20 @@ async def classify(message: MessageInput):
             "reason": "The message explicitly states refund problem."
         }
 
-# client = OpenAI(base_url=os.environ["LLM_BASE_URL"], api_key=os.environ["LLM_API_KEY"])
+    client = OpenAI(base_url=os.environ["LLM_BASE_URL"], api_key=os.environ["LLM_API_KEY"])
 
-# res = client.chat.completions.create(
-#     model=os.environ["LLM_MODEL"],
-#     messages=[{"role": "user", "content": "Reply with exactly the word: ready"}],
-# )
+    res = client.chat.completions.create(
+        model=os.environ["LLM_MODEL"],
+        messages=[
+            {
+                "role": "system",
+                "content": get_prompt()
+            },
+            {
+                "role": "user",
+                "content": message.text
+            }
+            ],
+        temperature=0.2
+    )
+    return res.choices[0].message.content
