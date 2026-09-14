@@ -1,0 +1,73 @@
+[
+  {
+      "id": 1,
+      "description": "Ambiguous: Technical crash during financial checkout",
+      "input": "I was double-charged and your app crashed when I tried to view the receipt",
+      "expected": {
+          "category": "billing",
+          "urgency": "high"
+      }
+  },
+  {
+      "id": 2,
+      "description": "Standard: Critical technical outage/bug",
+      "input": "Every time I click 'Export Report', the entire page throws a 500 error and crashes my browser tab.",
+      "expected": {
+          "category": "bug",
+          "urgency": "high"
+      }
+  },
+  {
+      "id": 3,
+      "description": "Standard: Routine account access",
+      "input": "I cannot log into my profile because the password reset link sent to my email has expired. Can you trigger a new one?",
+      "expected": {
+          "category": "feature",
+          "urgency": "medium"
+      }
+  },
+  {
+      "id": 4,
+      "description": "Standard: Low-priority general inquiry / feature request",
+      "input": "Do you offer dark mode on the mobile app, or do you have plans to add it in an upcoming release?",
+      "expected": {
+          "category": "feature",
+          "urgency": "low"
+      }
+  },
+  {
+      "id": 5,
+      "description": "Standard: Routine billing documentation",
+      "input": "Could you please send me an itemized VAT invoice for our company's accounting audit for the last quarter?",
+      "expected": {
+          "category": "billing",
+          "urgency": "low"
+      }
+  },
+  {
+      "id": 6,
+      "description": "Standard: Minor non-blocking UI bug",
+      "input": "The profile picture upload looks slightly blurry on high-resolution screens, though the rest of the site looks crisp.",
+      "expected": {
+          "category": "bug",
+          "urgency": "low"
+      }
+  },
+  {
+      "id": 7,
+      "description": "Standard: Clear duplicate billing",
+      "input": "My credit card was charged $49.99 twice this morning for the monthly subscription. Please refund the duplicate charge immediately.",
+      "expected": {
+          "category": "billing",
+          "urgency": "high"
+      }
+  },
+  {
+      "id": 8,
+      "description": "When Unsure: Completely out-of-scope / irrelevant text",
+      "input": "What is the capital of France and what time does the sun set today?",
+      "expected": {
+          "category": "other",
+          "urgency": "low"}
+  }
+]

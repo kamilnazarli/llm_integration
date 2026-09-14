@@ -21,7 +21,7 @@ project_root = current_file.parents[2] # our project root
 app = FastAPI()
 
 PROMPT_VERSION = "classification-v1"
-TIMEOUT_SECS = 30
+TIMEOUT_SECS = 30  # timeout secs for LLm
 
 
 def get_prompt():
@@ -37,7 +37,6 @@ def send_request(message):
     """
     Sending user message to AI
     """
-    prompt = get_prompt()
     start_time = datetime.now()
     try:
         
@@ -58,7 +57,8 @@ def send_request(message):
                     }],
                 temperature=0.2
             )        
-        
+
+        # total time to get response
         duration_ms = int((datetime.now() - start_time).total_seconds() * 1000)
 
     except APITimeoutError:
@@ -76,12 +76,16 @@ def send_request(message):
                 )
 
     output_message = res.choices[0].message.content
-    usage = res.usage
+    usage = res.usage # to save usage of LLM
 
     return output_message, usage, duration_ms
 
 def log_llm_usage(model, input_tokens, output_tokens, duration_ms, needed_repair):
+    """
+    Logging the LLM usage to estimate cost
+    """
     usage_log = {
+        "timestamp": datetime.now(timezone.utc).timestamp(),
         "prompt_version": PROMPT_VERSION,
         "model": model,
         "input_tokens": input_tokens,
@@ -117,7 +121,9 @@ def clean_markdown_fences(raw_text):
     return text.strip(), needed_repair
 
 def log_to_quarantine(message, output_message, error):
-
+    """
+    Saving requests which failed twice
+    """
     Path(project_root / "logs").mkdir(parents=True, exist_ok=True)
 
     quarantine_record = {
@@ -175,7 +181,7 @@ async def classify(message: MessageInput):
     # Sending request to LLM
     output_message, usage_1, duration_1 = send_request(message)
     output_message, needed_repair_1 = clean_markdown_fences(output_message)
-
+    print(output_message)
     try:
         # Validating the output format
         validated_output = MessageOutput.model_validate_json(output_message)
