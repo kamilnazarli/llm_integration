@@ -18,7 +18,7 @@ The API isolates the model provider behind three environment variables (LLM_API_
 - **pip package manager**
 
 ```bash
-git clone https://github.com/kamilnazarli/scraper.git
+git clone https://github.com/kamilnazarli/llm_integration.git
 cd scraper
 
 python -m venv .venv
