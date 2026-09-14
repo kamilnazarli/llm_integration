@@ -11,6 +11,31 @@ The API isolates the model provider behind three environment variables (LLM_API_
 - **LLM_ENABLED:** The operational kill switch (true or false). Defaults to true so the service works on boot.
 - **LLM_STUB:** Toggles mock responses (1 or 0) for running fast local integration tests without burning API credits. 
 
+## Setup and Installation
+
+### Prerequisites
+- **Python 3.10+**
+- **pip package manager**
+
+```bash
+git clone https://github.com/kamilnazarli/scraper.git
+cd scraper
+
+python -m venv .venv
+# On macOS / Linux:
+source .venv/bin/activate
+# On Windows (PowerShell):
+.\.venv\Scripts\Activate.ps1
+# On Windows (CMD):
+.\.venv\Scripts\activate.bat
+```
+
+### Prerequisites
+Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
 ## Endpoint test
 Valid curl command:
 ```bash
