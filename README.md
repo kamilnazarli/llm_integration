@@ -63,7 +63,7 @@ I chose the SDK's native retry mechanism configured explicitly to 2 retries, whi
 - **Prompt Version:** classification-v1
 - **Score:** 5/8 (62.5%) accuracy on key category field.
 Failure Analysis:
-- Case 7 (Ambiguous payment freeze during checkout) predicted technical instead of billing. The model prioritized the UI freeze over the pending bank charge. Next prompt revision will add an explicit tie-breaker prioritizing financial impact over UI bugs.
+-
 
 ## Cost Estimation
 Sample structured log line from `logs/llm_usage.jsonl`:

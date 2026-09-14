@@ -7,7 +7,7 @@ with open("evals/cases.json", "r", encoding="utf-8") as f:
 
 num_evaluation_entries = len(data) # number of entries to test the LLM
 success_count = 0  # to count successful responses based on evaluation set
-failed_entry_ids = [] # to keep failures in one place
+failed_entries = [] # to keep failures in one place
 
 for sample in data:
     # Sending request to live running server
@@ -22,7 +22,7 @@ for sample in data:
         result["urgency"] == sample["expected"]["urgency"]):
         success_count += 1  # if our model returns right labels
     else:
-        failed_entry_ids.append(sample["id"]) # save failed entries
+        failed_entries.append(sample) # save failed entries
 
 print(f"Our LLM became successful in {success_count} out of {num_evaluation_entries} entries")
-print(f"Failed entry ids: {failed_entry_ids}")
+print(f"Failed entries: {failed_entries}")
